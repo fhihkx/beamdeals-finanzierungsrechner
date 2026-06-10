@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beamdeals Finanzierungsrechner</title>
+  <meta name="description" content="Finanzierungsrechner für beamdeals GmbH" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="calculator-shell" aria-label="Beamdeals Finanzierungsrechner">
+    <section class="hero-card">
+      <img class="brand-logo" src="beam.deals.png" alt="beam.deals Logo">
+      <div class="eyebrow">Beamdeals Finanzierung</div>
+      <h1>Ihr individueller<br><span>Finanzierungsrechner</span></h1>
+      <p>Berechnen Sie transparente Leasing- oder Mietkauf-Raten für Lasermaschinen direkt online.</p>
+    </section>
+
+    <section class="calculator-card" id="calculator">
+      <div class="form-panel">
+        <h2>Finanzierung berechnen</h2>
+
+        <form id="rateForm" novalidate>
+          <div class="field-group">
+            <label for="price">Anschaffungspreis (Netto)</label>
+            <div class="input-wrap">
+              <input id="price" name="price" type="text" inputmode="decimal" placeholder="0,00" autocomplete="off" required>
+              <span>€</span>
+            </div>
+            <p class="field-error" id="priceError">Bitte geben Sie einen gültigen Anschaffungspreis ein.</p>
+          </div>
+
+          <div class="field-grid two">
+            <div class="field-group">
+              <label for="term">Laufzeit</label>
+              <select id="term" name="term" required>
+                <option value="">Bitte wählen</option>
+                <option value="36">36 Monate</option>
+                <option value="48">48 Monate</option>
+                <option value="54">54 Monate</option>
+                <option value="60">60 Monate</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="residual">Restwert</label>
+              <select id="residual" name="residual" required>
+                <option value="">Bitte wählen</option>
+                <option value="5">5 %</option>
+                <option value="10">10 %</option>
+                <option value="15">15 %</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="primary-button" type="submit">Rate berechnen</button>
+          <p class="combo-error" id="comboError">Diese Kombination ist aktuell nicht verfügbar.</p>
+        </form>
+      </div>
+
+      <aside class="result-panel" aria-live="polite">
+        <div>
+          <p class="result-kicker">Unverbindliches Angebot</p>
+          <h2>Monatliche Rate</h2>
+        </div>
+        <div class="rate-display"><span id="monthlyRate">0,00</span><small>€</small></div>
+        <div class="result-note">
+          <strong>Hinweis</strong>
+          <p>*Alle Preise zzgl. gesetzlicher MwSt. vorbehaltlich positiver Bonitätsprüfung durch unsere Finanzierungspartner.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="contact-card" id="offerSection">
+      <div class="contact-form-panel">
+        <h2>Ihre Kontaktdaten</h2>
+        <p>Bitte geben Sie Ihre Daten ein, um das unverbindliche Beamdeals-Angebot als PDF zu erhalten.</p>
+
+        <form id="offerForm" novalidate>
+          <div class="field-grid two">
+            <div class="field-group">
+              <label for="financeType">Finanzierungsart</label>
+              <select id="financeType" required>
+                <option value="">Wählen</option>
+                <option>Leasing</option>
+                <option>Mietkauf</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="salutation">Anrede</label>
+              <select id="salutation" required>
+                <option value="">Wählen</option>
+                <option>Frau</option>
+                <option>Herr</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-grid two">
+            <div class="field-group"><label for="firstName">Vorname</label><input id="firstName" type="text" required></div>
+            <div class="field-group"><label for="lastName">Nachname</label><input id="lastName" type="text" required></div>
+          </div>
+
+          <div class="field-group"><label for="company">Firmenname</label><input id="company" type="text" required></div>
+          <div class="field-group"><label for="address">Adresse &amp; Hausnummer</label><input id="address" type="text" required></div>
+
+          <div class="field-grid two">
+            <div class="field-group"><label for="zip">Postleitzahl</label><input id="zip" type="text" inputmode="numeric" required></div>
+            <div class="field-group"><label for="city">Ort</label><input id="city" type="text" required></div>
+          </div>
+
+          <button class="primary-button" type="submit">PDF-Angebot herunterladen</button>
+          <p class="combo-error" id="offerError">Bitte berechnen Sie zuerst eine Rate und füllen Sie ausnahmslos alle Pflichtfelder aus.</p>
+        </form>
+      </div>
+
+      <aside class="summary-panel">
+        <h3>Zusammenfassung</h3>
+        <dl>
+          <div><dt>Anschaffungspreis</dt><dd id="summaryPrice">0,00 €</dd></div>
+          <div><dt>Laufzeit</dt><dd id="summaryTerm">0 Monate</dd></div>
+          <div><dt>Anzahlung</dt><dd id="summaryDeposit">0,00 €</dd></div>
+          <div><dt>Restwert</dt><dd id="summaryResidual">0,00 €</dd></div>
+          <div><dt>Leasingfaktor</dt><dd id="summaryFactor">0,00 %</dd></div>
+        </dl>
+        <div class="summary-rate">
+          <span>Monatliche Rate</span>
+          <strong><span id="summaryRate">0,00</span> €</strong>
+        </div>
+        <button class="secondary-button" type="button" id="editButton">Angaben ändern</button>
+      </aside>
+    </section>
+
+    <section class="benefits-section">
+      <div class="section-heading">
+        <h2>Ihre Vorteile im Überblick</h2>
+        <p>Finanzierungslösungen für professionelle Lasertechnik von Beamdeals.</p>
+      </div>
+      <div class="benefit-grid">
+        <article><h3>Liquidität schonen</h3><p>Investieren Sie in moderne Lasertechnik, ohne unnötig Kapital zu binden.</p></article>
+        <article><h3>Sichere Planung</h3><p>Feste monatliche Raten unterstützen eine klare Budget- und Investitionsplanung.</p></article>
+        <article><h3>Modernste Technik</h3><p>Erhalten Sie Zugang zu leistungsfähigen Lasermaschinen, Ersatzteilen und Lösungen für den professionellen Einsatz.</p></article>
+      </div>
+    </section>
+
+    <section class="comparison-section">
+      <div class="section-heading">
+        <h2>Die richtige Lösung finden</h2>
+        <p>Leasing oder Mietkauf? Vergleichen Sie die Vorteile beider Modelle.</p>
+      </div>
+      <div class="comparison-grid">
+        <article>
+          <h3>Leasing</h3>
+          <ul>
+            <li>Bilanzneutral: Investition taucht nicht in der Bilanz auf und schont die Eigenkapitalquote.</li>
+            <li>Betriebsausgaben: Leasingraten sind echte Kosten und in voller Höhe absetzbar.</li>
+            <li>Eigentumsübergabe: Ziel ist die Übernahme zum Laufzeitende. Eine Rückgabe ist nicht gewünscht.</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Mietkauf</h3>
+          <ul>
+            <li>Automatisches Eigentum: Mit Zahlung der letzten Rate gehört die Ausrüstung zu 100 % Ihnen.</li>
+            <li>Bilanzierung: Die Maschine wird direkt im eigenen Anlagevermögen aktiviert.</li>
+            <li>MwSt.: Vor Auszahlung ist die MwSt. auf die Summe aller Raten an die Leasinggesellschaft zu zahlen.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTs4DALu5N6xY2aPRWCBqnP9R3V6sM6C11VbZ1wG9bVqJZ0ABbI0U8BA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="script.js"></script>
+</body>
+</html>
